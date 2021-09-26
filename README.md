@@ -1,3 +1,3 @@
 # Movie App 2021
 
--React JS Foundation Course 2020
+-React JS Foundatals Course 2020
