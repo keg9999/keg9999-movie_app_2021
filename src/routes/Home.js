@@ -31,7 +31,7 @@ class Home extends React.Component {
       <section className="container">
         {isLoading ? (
           <div className="loader">
-            <span className="loader__text">Loading...</span>
+            <span className="loader-text">Loading...</span>
           </div>
         ) : (
           <div className="movies">
@@ -53,7 +53,6 @@ class Home extends React.Component {
       </section>
     );
   }
-
 }
 
 export default Home;
