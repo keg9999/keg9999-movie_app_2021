@@ -20,6 +20,17 @@ class Home extends React.Component {
     this.setState({ movies, isLoading: false });
   };
 
+  mapResponseToMovieDataObject(movie) {
+    return {
+      key:movie.id,
+      id: movie.id,
+      year: movie.year,
+      title: movie.title,
+      summary: movie.summary,
+      imageUrl: movie.medium_cover_image,
+      genres: movie.genres
+    }
+  }
 
   componentDidMount() {
     this.getMovies();
@@ -43,7 +54,7 @@ class Home extends React.Component {
                   year={movie.year}
                   title={movie.title}
                   summary={movie.summary}
-                  poster={movie.medium_cover_image}
+                  imageUrl={movie.medium_cover_image}
                   genres={movie.genres}
                 />
               )
