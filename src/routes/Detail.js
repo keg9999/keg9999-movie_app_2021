@@ -2,77 +2,75 @@ import React from 'react';
 import './Details.css';
 import axios from 'axios';
 
-class Detail extends React.Component{
+class Detail extends React.Component {
 
-state = {
-}
-
-getMovies = async() => {
-    const { location, history } = this.props;
-    this.state= {
-        movieData: {
-
-        }
+    state = {
     }
-        
-    if( location.state === undefined ){
-        const queryParam = new URLSearchParams(this.props.location.search).get("movie_id");
-        console.log('querypram movie id: ', queryParam);
-     await axios.get(`https://yts.mx/api/v2/movie_details.json?movie_id=${queryParam}`).then((response)=>{
-        console.log(response);
-        const responseDataMovie = response.data.data.movie;
-        this.setState({
+
+    getMovies = async () => {
+        const { location } = this.props;
+        this.state = {
             movieData: {
-            title: responseDataMovie.title,
-            year: responseDataMovie.year,
-            summary: responseDataMovie.summary,
-            imageUrl: responseDataMovie.medium_cover_image,
-            genres: responseDataMovie.genres
-         }});
-     });
-    } else {
-        const locationState  = location.state;
-        this.setState(
-            {
-            movieData: {
-                title: locationState.title,
-                year: locationState.year,
-                summary: locationState.summary,
-                imageUrl: locationState.imageUrl,
-                genres: locationState.genres
+
             }
         }
-        );
-    }
-}
 
-    async componentDidMount(){
-       this.getMovies();
+        const queryParam = new URLSearchParams(location.search).get("movie_id");
+        console.log('querypram movie id: ', queryParam);
+        await axios.get(`https://yts.mx/api/v2/movie_details.json?movie_id=${queryParam}`).then((response) => {
+            const responseDataMovie = response.data.data.movie;
+            console.log(responseDataMovie);
+            this.setState({
+                movieData: {
+                    title: responseDataMovie.title_long,
+                    summary: responseDataMovie.description_full,
+                    imageUrl: responseDataMovie.medium_cover_image,
+                    genres: responseDataMovie.genres,
+                    rating: responseDataMovie.rating,
+                    runtime: responseDataMovie.runtime
+                }
+            });
+        });
+
     }
 
-    render(){
-        console.log(this.state);
-        if( this.state.movieData ){
-            const { title, year, summary, imageUrl, genres } = this.state.movieData;
+    componentDidMount() {
+        console.log('componentDidMount실행', this.state);
+        this.getMovies();
+    }
+
+    render() {
+        if (this.state.movieData) {
+            console.log('render-if', this.state);
+            const { title, summary, imageUrl, genres, rating, runtime } = this.state.movieData;
             return (
-              <React.Fragment>
-                <div className="details-container">
-                <span className="details-title"> {title} </span>
-                <div className="details-year"> {year} </div>
-                <div className="details-summary"> {summary} </div>
-                <img className="details-image" src={imageUrl} alt={title} title={title} />
-                <div className="details-genres"> {genres} </div>
-                </div>
-             </React.Fragment>
+                <React.Fragment>
+                    <div className="details-container">
+                        <h2 className="details-title"> {title} </h2>
+                        <div className="details-contents">
+                            <img className="details-image" src={imageUrl} alt={title} title={title} />
+                            <div className="details-right">
+                            <h5 className="details-rating-runtime"> rating: {rating} / runtime: {runtime} m </h5>
+                            <ul className="details-genres">
+                                {genres.map((genre, index) => {
+                                    return <li key={index} className="movie-genre">{genre}</li>
+                                })}
+                            </ul>
+                            <span className="details-summary"> {summary} </span>
+                            </div>
+                        </div>
+                    </div>
+                </React.Fragment>
             )
-        }else{
-            return(
+        } else {
+            console.log('render-else', this.state);
+            return (
                 <div>
-                  Loading....
+                    Loading....
                 </div>
             );
         }
-        
+
     }
 }
 

@@ -12,7 +12,7 @@ function Movie({id, title, year, summary, imageUrl, genres }) {
                     state: {id, year, title, summary, imageUrl, genres},
                     search:`movie_id=${id}`
                 }}
-            >
+            >                      
             <img src={imageUrl} alt={title} title={title} />
             <div className="movie-data">
                 <h3 className="movie-title">{title}</h3>
