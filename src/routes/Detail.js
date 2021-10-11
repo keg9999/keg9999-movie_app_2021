@@ -16,10 +16,8 @@ class Detail extends React.Component {
         }
 
         const queryParam = new URLSearchParams(location.search).get("movie_id");
-        console.log('querypram movie id: ', queryParam);
         await axios.get(`https://yts.mx/api/v2/movie_details.json?movie_id=${queryParam}`).then((response) => {
             const responseDataMovie = response.data.data.movie;
-            console.log(responseDataMovie);
             this.setState({
                 movieData: {
                     title: responseDataMovie.title_long,
@@ -35,13 +33,11 @@ class Detail extends React.Component {
     }
 
     componentDidMount() {
-        console.log('componentDidMount실행', this.state);
         this.getMovies();
     }
 
     render() {
         if (this.state.movieData) {
-            console.log('render-if', this.state);
             const { title, summary, imageUrl, genres, rating, runtime } = this.state.movieData;
             return (
                 <React.Fragment>
@@ -63,7 +59,6 @@ class Detail extends React.Component {
                 </React.Fragment>
             )
         } else {
-            console.log('render-else', this.state);
             return (
                 <div>
                     Loading....

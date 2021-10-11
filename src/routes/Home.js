@@ -11,12 +11,19 @@ class Home extends React.Component {
     movies: [],
   };
 
+  sortMovies(movies){
+    movies.sort(function (a, b){
+      return b.rating - a.rating;
+    });
+  }
+
   getMovies = async () => {
     const {
       data: {
         data: { movies },
       },
     } = await axios.get('https://yts.mx/api/v2/list_movies.json');
+    this.sortMovies(movies);
     this.setState({ movies, isLoading: false });
   };
 
